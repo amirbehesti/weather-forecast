@@ -1,41 +1,22 @@
-import React, { useState,useEffect } from "react";
+import React, {useState} from "react";
 import "./App.css";
 import { ThermometerHalf, Moisture, Wind, Cloud } from "react-bootstrap-icons";
 
 function App() {
-  const [search, setSearch] = useState("Kolkata");
+  const [search, setSearch] = useState("");
   const [weather, setWeather] = useState("");
-  const[error,setError] = useState(false);
-
-  const url = "http://api.weatherstack.com/current?access_key=7446a0cb008ddc627eb5d915a972a421&query=";
 
   const handleSearch = async () => {
-    setError(false);
     if (search) {
-      try{
-        const response = await fetch(`${url}+${search}`);
-        const data = await response.json();
-                // console.log(data);
-        if(data.error){
-          setError(true);
-        }else{
-          setWeather(data);
+     await fetch("http://api.weatherstack.com/current?access_key=4a8fa398437e54ca5a250cf4bafe3816&query=" + search +"")
+        .then((resp) => resp.json())
+        .then((result) => {
+          setWeather(result);
           setSearch("");
-        }
-
-      }catch(err){
-         console.log(err)
-      }
+          // console.log(result);
+        });
     }
   };
-  
-  useEffect(()=>{
-     const initialCall =async ()=>{
-         await handleSearch();
-     }
-     initialCall();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
 
   const dateBuilder = (d) => {
     let months = [
@@ -105,7 +86,7 @@ function App() {
             />
           </button>
         </div>
-        {!error && weather && typeof weather.current != "undefined" ? (
+        {typeof weather.current != "undefined" ? (
           <div className="container">
             <div className="location-box">
               <h2 className="location">
@@ -155,7 +136,6 @@ function App() {
               </div>
               <Cloud className="cloud"/>
             </div>
-            {error && <div className="error">Please enter valid location..</div>}
           </div>
         )}
       </main>
