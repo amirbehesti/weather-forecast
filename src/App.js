@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from "react";
 import "./App.css";
-import axios from "axios";
 import { ThermometerHalf, Moisture, Wind, Cloud } from "react-bootstrap-icons";
 
 function App() {
@@ -14,14 +13,16 @@ function App() {
     setError(false);
     if (search) {
       try{
-        const response = await axios.get(`${url}+${search}`);
-        if(response.data.error){
+        const response = await fetch(`${url}+${search}`);
+        const data = await response.json();
+                // console.log(data);
+        if(data.error){
           setError(true);
         }else{
-          setWeather(response.data);
+          setWeather(data);
           setSearch("");
         }
-        // console.log(response);
+
       }catch(err){
          console.log(err)
       }
