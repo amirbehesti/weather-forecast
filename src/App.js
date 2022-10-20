@@ -13,18 +13,7 @@ function App() {
       const response = await axios.get(`${url}+${search}`);
       setWeather(response.data);
       setSearch("");
-      console.log(response);
-      // fetch(
-      //    +
-      //     search +
-      //     ""
-      // ) //fetching the API
-      //   .then((resp) => resp.json())
-      //   .then((result) => {
-      //     setWeather(result); //store in weather
-      //     setSearch("");
-      //     console.log(result);
-      //   });
+      // console.log(response);
     }
   };
   const dateBuilder = (d) => {
